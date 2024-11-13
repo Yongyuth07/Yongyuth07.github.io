@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script>
+        $(function () {
+
+            if(sessionStorage.getItem('user')== null) {
+                alert('Pls Login First!!!')
+                location.href = './'
+
+            }
+
+            $('head').load('head.html')
+            $('#bodys').load('body.html')
+            $('#foots').load('foot.html')
+        
+
+
+        })
+        
+    </script>
+  <script>
+    sid = []
+    sname = []
+    dept = []
+
+    if (localStorage.getItem('sid') != null &&
+        localStorage.getItem('sname') != null &&
+        localStorage.getItem('dept') != null) {
+        sid = JSON.parse(localStorage.getItem('sid'))
+        sname = JSON.parse(localStorage.getItem('sname'))
+        dept = JSON.parse(localStorage.getItem('dept'))
+    }
+
+
+
+</script>
+
+
+</head>
+
+<body onload="load_data()">
+    <div id="bodys"></div>
+
+    <div class="container d-flex flex-wrap justify-content-center gap-5 mt-5 mb-5">
+        <!-- <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 80px;">     -->
+            
+            <div class="card" style="width: 40rem; ">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxoTzjlvm2a8QWk9zewMyNjy8B3zdSbadofQ&s"
+                    class="card-img-top" alt="..." style="width: full; height: 300px;">
+                <div class="card-body">
+                    <h5 class="card-title">Student System</h5>
+        
+                    <button type="button" class="btn btn-primary w-25" data-bs-toggle="modal"
+                    data-bs-target="#adddata">Add Data</button>
+
+        
+                    
+        
+                </div>
+                <table id="tb_student"class="table table-bordered border border-info border-3 mt-3 table-hover table-striped ">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID Student</th>
+                            <th scope="col">Full Name</th>
+                            <th scope="col">Deapartment</th>
+        
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
+            </div>
+    </div>
+   
+<!-- Modal -->
+<div class="modal fade" id="adddata" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Data</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    onclick="clear_form()"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="sid" placeholder="">
+                    <label>Student ID</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="sname" placeholder="">
+                    <label>Full Name</label>
+                </div>
+                <div class="form-floating ">
+                    <select class="form-select" aria-label="Default select example" id="dept">
+                        <option selected>Choose Department</option>
+                        <option value="Information_Technology">Information Technology</option>
+                        <option value="Mechanic">Mechanic</option>
+                        <option value="Welding">Welding</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                    onclick="clear_form()">Reset</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+                    onclick="click_submit()">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+let tb_student = document.querySelector('#tb_student tbody')
+        let row = null
+        let col = null
+
+    function load_data(){
+       
+        tb_student.innerHTML = ''
+        
+        for(let i = 0; i < sid.length; i++){
+            row = document.createElement('tr')
+
+            col = document.createElement('td')
+            col.textContent = sid[i]
+            
+            row.appendChild(col)
+            col = document.createElement('td')
+            col.textContent= sname[i]
+            row.appendChild(col)
+
+            col = document.createElement('td')
+            col.textContent= dept[i]
+            row.appendChild(col)
+
+            tb_student.appendChild(row)
+            
+            
+        }      
+
+        
+    }
+    function click_submit() {
+            sid.push(document.getElementById('sid').value)
+            sname.push(document.getElementById('sname').value)
+            dept.push(document.getElementById('dept').value)
+
+            localStorage.setItem('sid', JSON.stringify(sid))
+            localStorage.setItem('sname', JSON.stringify(sname))
+            localStorage.setItem('dept',  JSON.stringify(dept))
+
+
+            clear_form()
+            load_data()
+        }
+        
+        function clear_form() {
+            document.getElementById('sid').value = ''
+            document.getElementById('sname').value = ''
+            document.getElementById('dept').selectedIndex = '0'
+        }
+</script>
+
+        <div id="foots"></div>
+</body>
+
+</html>
